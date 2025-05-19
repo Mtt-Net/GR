@@ -25,6 +25,7 @@ st.markdown(
         padding: 15px;
         border-left: 5px solid #3498db;
         margin: 10px 0;
+        color: black;
     }
     .info-box p {
         margin: 10px 0;
@@ -71,9 +72,9 @@ st.sidebar.header('Parâmetros da Opção')
 ticker = st.sidebar.text_input('Ticker', value='AAPL')
 tipo_opcao = st.sidebar.radio('Tipo de Opção', ['Opção Europeia', 'Opção Asiática'])
 option_style = st.sidebar.radio('Direito', ['Call', 'Put'])
-strike_multiplier = st.sidebar.slider('Strike (% do S0)', 0.8, 1.2, 1.05, 0.01)
-tempo_expiracao = st.sidebar.slider('Tempo até Expiração (anos)', 0.1, 2.0, 1.0, 0.1)
-taxa_livre_risco = st.sidebar.slider('Taxa Livre de Risco', 0.01, 0.15, 0.04, 0.01)
+strike_multiplier = st.sidebar.slider('Strike (% do S0)', 0.8, 3.0, 1.05, 0.01)
+tempo_expiracao = st.sidebar.slider('Tempo até Expiração (anos)', 0.1, 10.0, 1.0, 0.1)
+taxa_livre_risco = st.sidebar.slider('Taxa Livre de Risco', 0.01, 0.20, 0.04, 0.01)
 
 @st.cache_data(show_spinner=False)
 def capturar_parametros(ticker, periodo='1y'):
