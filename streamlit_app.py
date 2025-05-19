@@ -5,7 +5,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Configuração do estilo
+# Configuração do estilo dos gráficos
 plt.style.use('default')
 sns.set_theme()
 
@@ -52,15 +52,12 @@ st.markdown(
         <p><strong>Opções Europeias:</strong> São contratos financeiros que conferem ao detentor o direito, mas não a obrigação,
         de comprar (opção de compra) ou vender (opção de venda) um ativo por um preço previamente determinado apenas na data
         específica de vencimento da opção.</p>
-
         <p><strong>Opções Asiáticas:</strong> São instrumentos financeiros derivados nos quais o pagamento depende da média
         dos preços do ativo subjacente durante um determinado período, reduzindo, assim, o impacto de oscilações extremas
         no preço em um único dia.</p>
-
         <p><strong>Opção Call:</strong> É um contrato que garante ao seu titular o direito, sem a obrigação, de comprar
         um ativo (como ações) por um preço fixo até uma data específica, sendo vantajosa se o preço do ativo subir acima
         desse valor combinado.</p>
-
         <p><strong>Opção Put:</strong> É um contrato que dá ao seu titular o direito, também sem obrigação, de vender
         um ativo por um preço fixado até uma data determinada, sendo vantajosa se o preço do ativo cair abaixo desse
         valor combinado.</p>
@@ -78,7 +75,6 @@ strike_multiplier = st.sidebar.slider('Strike (% do S0)', 0.8, 1.2, 1.05, 0.01)
 tempo_expiracao = st.sidebar.slider('Tempo até Expiração (anos)', 0.1, 2.0, 1.0, 0.1)
 taxa_livre_risco = st.sidebar.slider('Taxa Livre de Risco', 0.01, 0.15, 0.04, 0.01)
 
-# Funções de cálculo
 @st.cache_data(show_spinner=False)
 def capturar_parametros(ticker, periodo='1y'):
     dados = yf.download(ticker, period=periodo)
@@ -127,7 +123,6 @@ def monte_carlo_opcao_asiatica_put(S0, K, T, r, sigma, n_sim=10000, n_steps=252)
         payoffs.append(max(K - media, 0))
     return np.exp(-r * T) * np.mean(payoffs)
 
-# Botão principal
 enviar = st.button('Calcular')
 
 if enviar:
@@ -137,7 +132,6 @@ if enviar:
         T = tempo_expiracao
         r = taxa_livre_risco
 
-        # Seleciona a função correta
         if tipo_opcao == 'Opção Europeia':
             if option_style == 'Call':
                 price = monte_carlo_opcao_europeia_call(S0, K, T, r, sigma)
@@ -162,15 +156,12 @@ if enviar:
         </div>
         ''', unsafe_allow_html=True)
 
-        # Gráficos
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(12, 10))
-        # Gráfico histórico
         dados['Close'].plot(ax=ax1)
         ax1.set_title(f"Histórico de Preço - {ticker}")
         ax1.set_xlabel("Data")
         ax1.set_ylabel("Preço")
         ax1.grid(True, alpha=0.3)
-        # Trajetórias Monte Carlo
         dt = T / 252
         for _ in range(50):
             prices = [S0]
